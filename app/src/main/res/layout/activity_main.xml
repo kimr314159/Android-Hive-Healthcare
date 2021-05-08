@@ -37,7 +37,7 @@
                 android:textColor="#D1CACA" />
 
             <Button
-                android:id="@+id/button4"
+                android:id="@+id/buttonSend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#29099A"
@@ -55,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:backgroundTint="#ECE6E6"
+                android:backgroundTint="#000000"
                 android:text="Return" />
         </LinearLayout>
     </LinearLayout>
