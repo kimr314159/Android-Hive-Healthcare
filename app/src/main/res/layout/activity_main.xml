@@ -27,7 +27,7 @@
             android:padding="20px">
 
             <EditText
-                android:id="@+id/textViewMessage"
+                android:id="@+id/textMessage"
                 android:layout_width="323dp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#FFFFFF"
