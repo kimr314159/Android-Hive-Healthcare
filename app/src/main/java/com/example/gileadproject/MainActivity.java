@@ -24,7 +24,17 @@ public class MainActivity extends AppCompatActivity {
     public void handleClick(View view){
         switch(view.getId()){
             case R.id.buttonSend:
+                String message = textMessage.getText().toString();
+                System.out.println("Get Message: " + message);
                 System.out.println("Execute buttonSend Clicked");
+                sendInputRequest(message);
         }
     }
+
+
+    public void sendInputRequest(String message){
+        System.out.println("sendInputRequest is called.");
+    }
+
+
 }
