@@ -24,10 +24,12 @@ public class MainActivity extends AppCompatActivity {
     public void handleClick(View view){
         switch(view.getId()){
             case R.id.buttonSend:
+                //Store message before sending request
                 String message = textMessage.getText().toString();
                 System.out.println("Get Message: " + message);
                 System.out.println("Execute buttonSend Clicked");
                 sendInputRequest(message);
+                textMessage.setText("");
         }
     }
 
@@ -35,6 +37,4 @@ public class MainActivity extends AppCompatActivity {
     public void sendInputRequest(String message){
         System.out.println("sendInputRequest is called.");
     }
-
-
 }
