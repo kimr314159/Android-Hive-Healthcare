@@ -17,7 +17,6 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -45,4 +44,5 @@ dependencies {
     //Dialogflow
     implementation platform('com.google.cloud:libraries-bom:20.2.0')
     implementation 'com.google.cloud:google-cloud-dialogflow'
+    implementation 'io.grpc:grpc-okhttp:1.37.0'
 }

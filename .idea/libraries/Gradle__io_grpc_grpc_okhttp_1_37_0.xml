@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: io.grpc:grpc-okhttp:1.37.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/io.grpc/grpc-okhttp/1.37.0/dbcc5dc7b09a83b46d511df1e8df1017c6211ce6/grpc-okhttp-1.37.0.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/io.grpc/grpc-okhttp/1.37.0/3040fa677dc9f18f27330a33e53517493d3fadef/grpc-okhttp-1.37.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/io.grpc/grpc-okhttp/1.37.0/4bbbe9a0ac4242a2e85d0ba24dca9fdf33613e06/grpc-okhttp-1.37.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
