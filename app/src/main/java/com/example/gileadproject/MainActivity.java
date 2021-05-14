@@ -1,8 +1,11 @@
 package com.example.gileadproject;
 
 import androidx.appcompat.app.AppCompatActivity;
+import com.google.api.gax.core.FixedCredentialsProvider;
 import com.google.auth.oauth2.GoogleCredentials;
+import com.google.auth.oauth2.ServiceAccountCredentials;
 import com.google.cloud.dialogflow.v2.*;
+import java.util.UUID;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +20,9 @@ public class MainActivity extends AppCompatActivity {
     private EditText textMessage;
     private static TextView textLog;
     private GoogleCredentials credentials;
+    private SessionName sessionName;
+    private SessionsClient sessionsClient;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         textMessage = (EditText) findViewById(R.id.textMessage);
         textLog = (TextView) findViewById(R.id.textLog);
         setCredentials();
+        createSession();
     }
 
     public void handleClick(View view){
@@ -33,11 +40,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.buttonSend:
                 //Store message before sending request
                 String message = textMessage.getText().toString();
+                textMessage.setText("");
                 textLog.append(System.lineSeparator());
                 textLog.append(message);
                 System.out.println("Get Message: " + message);
-                System.out.println("Execute buttonSend Clicked");
-                textMessage.setText("");
+                sendQuery(message);
         }
     }
 
@@ -50,4 +57,29 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void createSession() {
+        try{
+            SessionsSettings.Builder settingsBuilder = SessionsSettings.newBuilder();
+            SessionsSettings sessionsSettings = settingsBuilder.setCredentialsProvider(FixedCredentialsProvider.create(credentials)).build();
+            String projectId = ((ServiceAccountCredentials) credentials).getProjectId();
+            String sessionId = UUID.randomUUID().toString();
+            //Define endpoint
+            sessionsClient = SessionsClient.create(sessionsSettings);
+            sessionName = SessionName.of(projectId, sessionId);
+        }catch(Exception e){
+            System.err.println("Failed to create session. " + e);
+        }
+    }
+
+    private void sendQuery(String message) {
+        try {
+            QueryInput queryInput = QueryInput.newBuilder() .setText(TextInput.newBuilder().setText(message).setLanguageCode("en-US")).build();
+            DetectIntentRequest detectIntentRequest = DetectIntentRequest.newBuilder().setSession(sessionName.toString()).setQueryInput(queryInput).build();
+            QueryResult queryResult = sessionsClient.detectIntent(detectIntentRequest).getQueryResult();
+            textLog.append(System.lineSeparator());
+            textLog.append(queryResult.getFulfillmentText());
+        } catch(Exception e){
+            System.err.println("Failed to send query." + e);
+        }
+    }
 }
