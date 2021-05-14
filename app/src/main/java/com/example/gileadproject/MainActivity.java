@@ -14,8 +14,11 @@ import com.google.cloud.dialogflow.v2.TextInput;
 
 
 import java.util.UUID;
+
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -53,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
                 textLog.append(message);
                 System.out.println("Get Message: " + message);
                 sendQuery(message);
+                //Hide soft keyboard
+                InputMethodManager inputMethodManager =(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 
