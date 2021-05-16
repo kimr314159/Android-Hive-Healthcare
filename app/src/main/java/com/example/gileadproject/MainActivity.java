@@ -19,6 +19,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.UUID;
 
+import java.util.concurrent.*;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -81,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
                 textLog.append(message);
                 System.out.println("Get Message: " + message);
                 sendQuery(message);
+                DialogFlowThread dialogFlowThread = new DialogFlowThread(message);
+                dialogFlowThread.start();
                 //Hide soft keyboard
                 InputMethodManager inputMethodManager =(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
@@ -140,4 +144,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+}
+
+
+class DialogFlowThread extends Thread {
+    String queryMessage;
+    DialogFlowThread(String queryMessage) {
+        this.queryMessage= queryMessage;
+    }
+
+    public void run() {
+        System.out.println("Running Thread and sending query.");
+    }
 }
