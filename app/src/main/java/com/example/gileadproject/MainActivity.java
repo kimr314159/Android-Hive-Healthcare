@@ -1,6 +1,7 @@
 package com.example.gileadproject;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.api.gax.core.FixedCredentialsProvider;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.auth.oauth2.ServiceAccountCredentials;
@@ -12,16 +13,19 @@ import com.google.cloud.dialogflow.v2.SessionsClient;
 import com.google.cloud.dialogflow.v2.SessionsSettings;
 import com.google.cloud.dialogflow.v2.TextInput;
 
-
+import java.io.*;
+import java.net.*;
 import java.util.UUID;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
 
 import java.io.InputStream;
 
@@ -44,6 +48,10 @@ public class MainActivity extends AppCompatActivity {
         textLog = (TextView) findViewById(R.id.textLog);
         setCredentials();
         createSession();
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitAll().build());
+        sendWhoRequest("USA");
+
+
     }
 
     public void handleClick(View view){
@@ -96,4 +104,23 @@ public class MainActivity extends AppCompatActivity {
             System.err.println("Failed to send query." + e);
         }
     }
+
+
+
+    public void sendWhoRequest (String country) {
+        try {
+            URL url = new URL("https://apps.who.int/gho/athena/api/GHO/HIV_0000000001.xml?filter=COUNTRY:" + country + "&profile=simple");
+            URLConnection urlConnection = (URLConnection) url.openConnection();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+            String string;
+            while ((string = bufferedReader.readLine()) != null) {
+                System.out.println(string);
+                System.out.println();
+            }
+            bufferedReader.close();
+        }catch (IOException e){
+            System.err.println("Failed to open URL." + e);
+        }
+    }
+
 }
