@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -33,7 +34,7 @@ import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button buttonSend;
+    private ImageView buttonSend;
     private EditText textMessage;
     private static TextView textLog;
     private GoogleCredentials credentials;
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        buttonSend = (Button) findViewById(R.id.buttonSend);
+        buttonSend = (ImageView) findViewById(R.id.buttonSend);
         textMessage = (EditText) findViewById(R.id.textMessage);
         textLog = (TextView) findViewById(R.id.textLog);
         setCredentials();
