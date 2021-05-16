@@ -40,13 +40,18 @@ public class MainActivity extends AppCompatActivity {
     private GoogleCredentials credentials;
     private SessionName sessionName;
     private SessionsClient sessionsClient;
+    private Button buttonDiscussionOption;
+    private Button buttonInformationOption;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_options);
-        findViewById(R.id.button_discussion).setOnClickListener(new View.OnClickListener() {
+        buttonInformationOption = (Button) findViewById(R.id.button_info_option);
+        buttonDiscussionOption = (Button) findViewById(R.id.button_discussion_option);
+
+        buttonDiscussionOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setContentView(R.layout.activity_main);
@@ -60,7 +65,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        buttonDiscussionOption.setAlpha(0);
+        buttonDiscussionOption.animate().alpha(1.0f).setDuration(1500).start();
+        buttonInformationOption.setAlpha(0);
+        buttonInformationOption.animate().alpha(1.0f).setDuration(1500).start();
     }
 
     public void handleClick(View view){

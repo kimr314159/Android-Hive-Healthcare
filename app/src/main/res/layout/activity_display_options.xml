@@ -45,7 +45,7 @@
                 app:cornerRadius="20dp" />
 
             <Button
-                android:id="@+id/button_discussion"
+                android:id="@+id/button_discussion_option"
                 android:layout_width="match_parent"
                 android:layout_height="263dp"
                 android:backgroundTint="#FFFFFF"
