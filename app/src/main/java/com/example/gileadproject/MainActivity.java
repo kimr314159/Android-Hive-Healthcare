@@ -45,14 +45,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        buttonSend = (ImageView) findViewById(R.id.buttonSend);
-        textMessage = (EditText) findViewById(R.id.textMessage);
-        textLog = (TextView) findViewById(R.id.textLog);
-        setCredentials();
-        createSession();
-        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitAll().build());
-        sendWhoRequest("USA");
+        setContentView(R.layout.activity_display_options);
+        findViewById(R.id.button_discussion).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setContentView(R.layout.activity_main);
+                buttonSend = (ImageView) findViewById(R.id.buttonSend);
+                textMessage = (EditText) findViewById(R.id.textMessage);
+                textLog = (TextView) findViewById(R.id.textLog);
+                setCredentials();
+                createSession();
+                StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitAll().build());
+                sendWhoRequest("USA");
+            }
+        });
 
 
     }

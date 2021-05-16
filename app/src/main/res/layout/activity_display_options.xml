@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="88dp"
                 android:gravity="center"
-                android:text="PathHealth"
+                android:text="Hive Healthcare"
                 android:textColor="#FAF5F5"
                 android:textSize="18dp" />
         </LinearLayout>
@@ -36,7 +36,7 @@
             android:padding="20dp">
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/button_info_option"
                 android:layout_width="match_parent"
                 android:layout_height="236dp"
                 android:backgroundTint="#FFFFFF"
@@ -45,7 +45,7 @@
                 app:cornerRadius="20dp" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/button_discussion"
                 android:layout_width="match_parent"
                 android:layout_height="263dp"
                 android:backgroundTint="#FFFFFF"
