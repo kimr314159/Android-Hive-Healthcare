@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     private void setCredentials() {
         try{
             InputStream in = this.getResources().openRawResource(R.raw.credentials);
