@@ -19,8 +19,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.UUID;
 
-import java.util.concurrent.*;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -73,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         buttonInformationOption.animate().alpha(1.0f).setDuration(1500).start();
     }
 
-    public void handleClick(View view){
+    public void handleClick(View view) throws InterruptedException {
         switch(view.getId()){
             case R.id.buttonSend:
                 //Store message before sending request
@@ -82,9 +80,12 @@ public class MainActivity extends AppCompatActivity {
                 textLog.append(System.lineSeparator());
                 textLog.append(message);
                 System.out.println("Get Message: " + message);
-                sendQuery(message);
-                DialogFlowThread dialogFlowThread = new DialogFlowThread(message);
+                DialogFlowThread dialogFlowThread = new DialogFlowThread(message, sessionsClient, sessionName);
                 dialogFlowThread.start();
+                dialogFlowThread.join();
+                textLog.append(System.lineSeparator());
+                textLog.append(dialogFlowThread.getQueryResult());
+
                 //Hide soft keyboard
                 InputMethodManager inputMethodManager =(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
@@ -114,17 +115,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void sendQuery(String message) {
-        try {
-            QueryInput queryInput = QueryInput.newBuilder() .setText(TextInput.newBuilder().setText(message).setLanguageCode("en-US")).build();
-            DetectIntentRequest detectIntentRequest = DetectIntentRequest.newBuilder().setSession(sessionName.toString()).setQueryInput(queryInput).build();
-            QueryResult queryResult = sessionsClient.detectIntent(detectIntentRequest).getQueryResult();
-            textLog.append(System.lineSeparator());
-            textLog.append(queryResult.getFulfillmentText());
-        } catch(Exception e){
-            System.err.println("Failed to send query." + e);
-        }
-    }
+
 
 
 
@@ -148,12 +139,35 @@ public class MainActivity extends AppCompatActivity {
 
 
 class DialogFlowThread extends Thread {
-    String queryMessage;
-    DialogFlowThread(String queryMessage) {
-        this.queryMessage= queryMessage;
+    private String queryMessage;
+    private SessionsClient sessionClient;
+    private SessionName sessionName;
+    private String result;
+
+    DialogFlowThread(String message, SessionsClient sessionClient, SessionName sessionName) {
+        this.queryMessage= message;
+        this.sessionClient = sessionClient;
+        this.sessionName = sessionName;
     }
 
     public void run() {
         System.out.println("Running Thread and sending query.");
+        sendQuery(this.queryMessage, this.sessionClient, this.sessionName);
+    }
+
+    String getQueryResult(){
+        return result;
+    }
+
+    private void sendQuery(String message, SessionsClient sessionsClient, SessionName sessionName) {
+        try {
+            QueryInput queryInput = QueryInput.newBuilder() .setText(TextInput.newBuilder().setText(message).setLanguageCode("en-US")).build();
+            DetectIntentRequest detectIntentRequest = DetectIntentRequest.newBuilder().setSession(sessionName.toString()).setQueryInput(queryInput).build();
+            QueryResult queryResult = sessionsClient.detectIntent(detectIntentRequest).getQueryResult();
+            this.result = queryResult.getFulfillmentText();
+            System.out.println(this.result);
+        } catch(Exception e){
+            System.err.println("Failed to send query." + e);
+        }
     }
 }
