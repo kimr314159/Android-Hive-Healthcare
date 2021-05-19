@@ -21,6 +21,8 @@ import java.util.UUID;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.StrictMode;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -47,6 +49,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home);
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getOptionsLayout();
+            }
+        }, 2000);
+    }
+
+
+    public void getOptionsLayout(){
         setContentView(R.layout.activity_display_options);
         buttonInformationOption = (Button) findViewById(R.id.button_info_option);
         buttonDiscussionOption = (Button) findViewById(R.id.button_discussion_option);
@@ -70,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         buttonInformationOption.setAlpha(0);
         buttonInformationOption.animate().alpha(1.0f).setDuration(1500).start();
     }
+
 
     public void handleClick(View view) throws InterruptedException {
         switch(view.getId()){
