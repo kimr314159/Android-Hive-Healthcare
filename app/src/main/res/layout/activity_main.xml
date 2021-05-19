@@ -52,9 +52,19 @@
                 android:textSize="14dp" />
 
             <ImageView
+                android:id="@+id/buttonSpeech"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#FFFFFF"
+                android:onClick="handleClick"
+                android:textAlignment="center"
+                app:srcCompat="@drawable/ic_baseline_mic_24" />
+
+            <ImageView
                 android:id="@+id/buttonSend"
                 android:layout_width="50dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="#008080"
                 android:onClick="handleClick"

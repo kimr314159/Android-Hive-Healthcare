@@ -20,10 +20,12 @@ import java.net.URLConnection;
 import java.util.UUID;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.StrictMode;
+import android.speech.RecognizerIntent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -37,6 +39,7 @@ import java.io.InputStream;
 public class MainActivity extends AppCompatActivity {
 
     private ImageView buttonSend;
+    private ImageView buttonSpeech;
     private EditText textMessage;
     private static TextView textLog;
     private GoogleCredentials credentials;
@@ -44,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private SessionsClient sessionsClient;
     private Button buttonDiscussionOption;
     private Button buttonInformationOption;
+
 
 
     @Override
@@ -68,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 setContentView(R.layout.activity_main);
+                buttonSpeech = (ImageView) findViewById(R.id.buttonSpeech);
                 buttonSend = (ImageView) findViewById(R.id.buttonSend);
                 textMessage = (EditText) findViewById(R.id.textMessage);
                 textLog = (TextView) findViewById(R.id.textLog);
@@ -75,6 +80,18 @@ public class MainActivity extends AppCompatActivity {
                 createSession();
                 StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitAll().build());
                 sendWhoRequest("USA");
+
+                //Speech recognition
+                buttonSpeech.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                        }catch (Exception e){
+                            System.err.println("Failed to detect speech." + e);
+                        }
+                    }
+                });
             }
         });
 
@@ -129,8 +146,6 @@ public class MainActivity extends AppCompatActivity {
             System.err.println("Failed to create session. " + e);
         }
     }
-
-
 
 
 
