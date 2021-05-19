@@ -55,8 +55,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 getOptionsLayout();
-            }
-        }, 2000);
+            }}, 2000);
     }
 
 
