@@ -125,20 +125,25 @@ public class MainActivity extends AppCompatActivity {
         switch(view.getId()){
             case R.id.buttonSend:
                 //Store message before sending request
-                String message = textMessage.getText().toString();
-                textMessage.setText("");
-                textLog.append(System.lineSeparator());
-                textLog.append(message);
-                System.out.println("Get Message: " + message);
-                DialogFlowThread dialogFlowThread = new DialogFlowThread(message, sessionsClient, sessionName);
-                dialogFlowThread.start();
-                dialogFlowThread.join();
-                textLog.append(System.lineSeparator());
-                textLog.append(dialogFlowThread.getQueryResult());
+                try{
+                    String message = textMessage.getText().toString();
+                    textMessage.setText("");
+                    textLog.append(System.lineSeparator());
+                    textLog.append(message);
+                    System.out.println("Get Message: " + message);
+                    DialogFlowThread dialogFlowThread = new DialogFlowThread(message, sessionsClient, sessionName);
+                    dialogFlowThread.start();
+                    dialogFlowThread.join();
+                    textLog.append(System.lineSeparator());
+                    textLog.append(dialogFlowThread.getQueryResult());
 
-                //Hide soft keyboard
-                InputMethodManager inputMethodManager =(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    //Hide soft keyboard
+                    InputMethodManager inputMethodManager =(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }catch(Exception e){
+                    System.err.println("Failed to send message. " + e);
+                }
+
         }
     }
 
