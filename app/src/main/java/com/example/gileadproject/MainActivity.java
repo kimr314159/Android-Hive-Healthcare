@@ -17,6 +17,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.Locale;
 import java.util.UUID;
 
 import android.content.Context;
@@ -47,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private SessionsClient sessionsClient;
     private Button buttonDiscussionOption;
     private Button buttonInformationOption;
-
+    private final int VOICE_REQUEST_CODE = 200;
 
 
     @Override
@@ -87,6 +89,12 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         try {
                             Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                            intent.putExtra(RecognizerIntent.EXTRA_PROMPT,"Detecting speech.");
+                            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault().toString());
+                            intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 500);
+                            intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
+                            startActivityForResult(intent, VOICE_REQUEST_CODE);
                         }catch (Exception e){
                             System.err.println("Failed to detect speech." + e);
                         }
@@ -100,6 +108,17 @@ public class MainActivity extends AppCompatActivity {
         buttonInformationOption.setAlpha(0);
         buttonInformationOption.animate().alpha(1.0f).setDuration(1500).start();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+            if (resultCode == RESULT_OK && null != intent && VOICE_REQUEST_CODE==requestCode) {
+                ArrayList<String> result = intent.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                textLog.append(System.lineSeparator());
+                textLog.append(result.get(0));
+            }
+        super.onActivityResult(requestCode, resultCode, intent);
+    }
+
 
 
     public void handleClick(View view) throws InterruptedException {
