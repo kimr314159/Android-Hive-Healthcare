@@ -1,4 +1,4 @@
-package com.example.gileadproject;
+package com.example.hivehealthcare;
 
 import androidx.appcompat.app.AppCompatActivity;
 

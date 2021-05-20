@@ -1,4 +1,4 @@
-package com.example.gileadproject;
+package com.example.hivehealthcare;
 
 import org.junit.Test;
 

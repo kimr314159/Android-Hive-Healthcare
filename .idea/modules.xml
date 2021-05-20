@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/GileadProject.iml" filepath="$PROJECT_DIR$/.idea/modules/GileadProject.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/GileadProject.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/GileadProject.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/HiveHealthcare.iml" filepath="$PROJECT_DIR$/.idea/modules/HiveHealthcare.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/HiveHealthcare.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/HiveHealthcare.app.iml" />
     </modules>
   </component>
 </project>

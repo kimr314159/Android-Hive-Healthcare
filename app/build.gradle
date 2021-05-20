@@ -12,7 +12,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.example.gileadproject"
+        applicationId "com.example.hivehealthcare"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
