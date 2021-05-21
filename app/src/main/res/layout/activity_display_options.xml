@@ -4,19 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background=" #111427"
+    android:background="#FFFFFF"
+    android:paddingLeft="0"
     tools:context=".DisplayOptionsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#FFFFFF"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="105dp"
         tools:layout_editor_absoluteY="160dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="137dp"
+            android:layout_height="94dp"
             android:orientation="vertical">
 
             <TextView
@@ -24,8 +26,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="88dp"
                 android:gravity="center"
-                android:text="Hive Healthcare"
-                android:textColor="#FAF5F5"
+                android:padding="30dp"
+                android:paddingLeft="38dp"
+                android:text="HIV Education and Healthcare"
+                android:textAlignment="viewStart"
+                android:textColor="#000000"
                 android:textSize="18dp" />
         </LinearLayout>
 
@@ -35,23 +40,47 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <Button
-                android:id="@+id/button_info_option"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="236dp"
-                android:backgroundTint="#FFFFFF"
-                android:text="Information Sheet"
-                android:textColor="#000000"
-                app:cornerRadius="20dp" />
+                android:layout_height="300dp"
+                android:orientation="vertical">
 
-            <Button
-                android:id="@+id/button_discussion_option"
+                <TextView
+                    android:id="@+id/button_discussion_option"
+                    android:layout_width="match_parent"
+                    android:layout_height="223dp"
+                    android:background="@drawable/option_button_shadow"
+                    android:elevation="7dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="left"
+                    android:padding="30dp"
+                    android:text="Chat with us."
+                    android:textColor="@color/black"
+                    android:translationZ="4dp" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="263dp"
-                android:backgroundTint="#FFFFFF"
-                android:text="Interactive FAQ"
-                android:textColor="#000000"
-                app:cornerRadius="20dp" />
+                android:layout_height="285dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/button_information_sheet"
+                    android:layout_width="match_parent"
+                    android:layout_height="221dp"
+
+                    android:background="@drawable/option_button_shadow"
+                    android:elevation="7dp"
+                    android:fontFamily="sans-serif-medium"
+
+                    android:gravity="left"
+                    android:padding="30dp"
+
+                    android:text="Information Page."
+                    android:textColor="@color/black"
+                    android:translationZ="4dp" />
+            </LinearLayout>
+
 
         </LinearLayout>
     </LinearLayout>

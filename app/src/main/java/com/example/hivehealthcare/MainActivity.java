@@ -47,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
     private GoogleCredentials credentials;
     private SessionName sessionName;
     private SessionsClient sessionsClient;
-    private Button buttonDiscussionOption;
-    private Button buttonInformationOption;
+    private TextView buttonDiscussionOption;
+//    private Button buttonInformationOption;
     private final int VOICE_REQUEST_CODE = 200;
 
 
@@ -67,8 +67,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void getOptionsLayout(){
         setContentView(R.layout.activity_display_options);
-        buttonInformationOption = (Button) findViewById(R.id.button_info_option);
-        buttonDiscussionOption = (Button) findViewById(R.id.button_discussion_option);
+//        buttonInformationOption = (Button) findViewById(R.id.button_info_option);
+        buttonDiscussionOption = (TextView) findViewById(R.id.button_discussion_option);
 
         buttonDiscussionOption.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,8 +105,9 @@ public class MainActivity extends AppCompatActivity {
 
         buttonDiscussionOption.setAlpha(0);
         buttonDiscussionOption.animate().alpha(1.0f).setDuration(1500).start();
-        buttonInformationOption.setAlpha(0);
-        buttonInformationOption.animate().alpha(1.0f).setDuration(1500).start();
+//        buttonInformationOption.setAlpha(0);
+//        buttonInformationOption.animate().alpha(1.0f).setDuration(1500).start();
+        buttonDiscussionOption.setZ(20);
     }
 
     @Override
