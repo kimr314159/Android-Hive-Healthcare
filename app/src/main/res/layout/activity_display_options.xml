@@ -79,7 +79,7 @@
                 <TextView
                     android:id="@+id/button_information_sheet"
                     android:layout_width="match_parent"
-                    android:layout_height="161dp"
+                    android:layout_height="143dp"
 
                     android:background="@drawable/option_button_shadow"
                     android:elevation="7dp"

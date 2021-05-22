@@ -73,15 +73,19 @@ public class MainActivity extends AppCompatActivity {
         buttonDiscussionOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setContentView(R.layout.activity_main);
-                buttonSpeech = (ImageView) findViewById(R.id.buttonSpeech);
-                buttonSend = (ImageView) findViewById(R.id.buttonSend);
-                textMessage = (EditText) findViewById(R.id.textMessage);
-                textLog = (TextView) findViewById(R.id.textLog);
-                setCredentials();
-                createSession();
-                StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitAll().build());
-                sendWhoRequest("USA");
+                try {
+                    setContentView(R.layout.activity_main);
+                    buttonSpeech = (ImageView) findViewById(R.id.buttonSpeech);
+                    buttonSend = (ImageView) findViewById(R.id.buttonSend);
+                    textMessage = (EditText) findViewById(R.id.textMessage);
+                    textLog = (TextView) findViewById(R.id.textLog);
+                    setCredentials();
+                    createSession();
+                    StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitAll().build());
+                    sendWhoRequest("USA");
+                }catch (Exception e){
+                    System.err.println("Failed to load 'discussions' option." + e);
+                }
 
                 //Speech recognition
                 buttonSpeech.setOnClickListener(new View.OnClickListener() {
