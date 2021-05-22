@@ -28,7 +28,6 @@
                 android:padding="30dp"
                 android:paddingLeft="38dp"
                 android:text="HIV Education and Healthcare"
-                android:textAlignment="viewStart"
                 android:textColor="#000000"
                 android:textSize="18dp" />
         </LinearLayout>
@@ -44,10 +43,17 @@
                 android:layout_height="300dp"
                 android:orientation="vertical">
 
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="152dp"
+                    app:srcCompat="@drawable/option1"
+                    android:scaleType="centerCrop"/>
+
                 <TextView
                     android:id="@+id/button_discussion_option"
                     android:layout_width="match_parent"
-                    android:layout_height="223dp"
+                    android:layout_height="116dp"
                     android:background="@drawable/option_button_shadow"
                     android:elevation="7dp"
                     android:fontFamily="sans-serif-medium"
@@ -63,10 +69,17 @@
                 android:layout_height="285dp"
                 android:orientation="vertical">
 
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="128dp"
+                    app:srcCompat="@drawable/option2"
+                    android:scaleType="centerCrop"/>
+
                 <TextView
                     android:id="@+id/button_information_sheet"
                     android:layout_width="match_parent"
-                    android:layout_height="221dp"
+                    android:layout_height="161dp"
 
                     android:background="@drawable/option_button_shadow"
                     android:elevation="7dp"
