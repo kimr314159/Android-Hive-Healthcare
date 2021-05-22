@@ -9,9 +9,12 @@
     tools:context=".MainActivity">
 
     <LinearLayout
+        android:id="@+id/layout_discussion"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="11dp"
+        tools:layout_editor_absoluteY="11dp">
 
         <LinearLayout
             android:layout_width="match_parent"

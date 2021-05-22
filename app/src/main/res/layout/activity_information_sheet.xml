@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    tools:context=".InformationSheetActivity">
+
+    <LinearLayout
+        android:id="@+id/layout_information_page"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="144dp"
+            android:background="@drawable/info"
+            android:orientation="horizontal"></LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#FFFFFF"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:paddingLeft="20dp"
+                android:text="HIV/Aids Information"
+                android:textAlignment="viewStart"
+                android:textColor="#000000"
+                android:textSize="25dp" />
+
+            <LinearLayout
+                android:layout_width="168dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:minWidth="20dp"
+                android:orientation="horizontal"
+                android:paddingLeft="50dp"
+                android:paddingTop="30dp">
+
+                <ImageButton
+                    android:id="@+id/button_return"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:height="2dp"
+                    android:background="#C4C4C4"
+                    android:minHeight="20dp"
+                    android:paddingLeft="20dp"
+                    app:cornerRadius="0dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="113dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal"></LinearLayout>
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="95dp"
+                    android:text="HIV stands for human immunodeficiency virus. The virus attacks and weakens the human immune system. The virus can cause a chronic condition called AIDS. Link: https://www.webmd.com/hiv-aids/top-10-myths-misconceptions-about-hiv-aids " />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="match_parent"
+                    android:layout_height="117dp"
+                    android:text="Myths or Misconceptions  Myth: Being in the company of HIV-positive people puts me at risk of contracting the virus. Touch, tears, sweat, saliva, or pee do not transmit HIV. It does transmit from infected blood, vaginal fluid, semen, and breast milk  Link: https://www.webmd.com/hiv-aids/top-10-myths-misconceptions-about-hiv-aids " />
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="match_parent"
+                    android:layout_height="162dp"
+                    android:text="Myth: HIV is transmitted by mosquitoes.  Myth: I would know if my partner was HIV-positive. You may have HIV for years without showing any signs or symptoms. The only way to find out whether you or your partner are positive is to get checked. The CDC advises that anyone aged 18 to 64 be screened at least once as part of routine blood work due to the long duration of asymptomatic infection. Link: https://www.webmd.com/hiv-aids/top-10-myths-misconceptions-about-hiv-aids " />
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="match_parent"
+                    android:layout_height="157dp"
+                    android:text="Myth: I'm not afraid of contracting HIV. I'll be able to stay healthy thanks to my medications. Many people with HIV benefit from antiretroviral therapy (ART), which helps them live longer, but HIV has no cure. Drug-resistant HIV strains make treatment more difficult. Prevention is less expensive and simpler than dealing with a chronic illness and the complications that come with it.  Link: https://www.webmd.com/hiv-aids/top-10-myths-misconceptions-about-hiv-aids " />
+
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="match_parent"
+                    android:layout_height="166dp"
+                    android:text="Prevention  Individuals can reduce their chances of contracting HIV by limiting their exposure to risk factors. Correct and continuous usage of male and female condoms during vaginal or anal intercourse can help prevent the transmission of sexually transmitted infections such as HIV. Male latex condoms have an 85 percent or higher preventive function against HIV and other sexually transmitted diseases, according to research (STIs).  Link: https://www.afro.who.int/health-topics/hivaids" />
+
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:text="Symptoms  Stage 1: Acute HIV Infection  Fever Chills Rash Night sweats Muscle aches Sore throat Fatigue Swollen lymph nodes Mouth ulcers Link: https://www.hiv.gov/hiv-basics/overview/about-hiv-and-aids/symptoms-of-hiv " />
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:text="Stage 2: Clinical Latency  The virus continues to multiply at this rate, but at a very low level. In this stage, people do not feel ill or show any symptoms. Chronic HIV infection is another name for this stage. People can remain in this stage for between 10 to 15 years with no treatment, but some people progress more quickly. You will protect your health and virtually remove the risk of HIV transmission to your sexual partner if you take HIV medication every day, exactly as prescribed, and achieve and maintain an undetectable viral load (s). However,  you will transmit HIV during this stage if your viral load is detectable, even if you have no symptoms. Link: https://www.hiv.gov/hiv-basics/overview/about-hiv-and-aids/symptoms-of-hiv  " />
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="180dp"
+                    android:text="Stage 3: AIDS Rapid weight loss Recurrent fever or excessive night sweats Extreme and unexplained exhaustion Swelling of the lymph glands in the armpits, groin, or neck for an extended period of time Diarrhea lasting more than a week Mouth ulcers, anus, or genital ulcers Pneumonia is a respiratory disease. Blotches of red, brown, pink, or purple on or under the skin, or inside the mouth, nose, or eyelids Memory loss, depression, and other neurologic conditions " />
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

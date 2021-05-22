@@ -39,6 +39,7 @@
             android:padding="20dp">
 
             <LinearLayout
+                android:id="@+id/layout_discussion"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:orientation="vertical">
@@ -47,8 +48,8 @@
                     android:id="@+id/imageView"
                     android:layout_width="match_parent"
                     android:layout_height="152dp"
-                    app:srcCompat="@drawable/option1"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/option1" />
 
                 <TextView
                     android:id="@+id/button_discussion_option"
@@ -65,6 +66,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layout_information"
                 android:layout_width="match_parent"
                 android:layout_height="285dp"
                 android:orientation="vertical">
@@ -73,8 +75,8 @@
                     android:id="@+id/imageView2"
                     android:layout_width="match_parent"
                     android:layout_height="128dp"
-                    app:srcCompat="@drawable/option2"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/option2" />
 
                 <TextView
                     android:id="@+id/button_information_sheet"
@@ -88,7 +90,7 @@
                     android:gravity="left"
                     android:padding="30dp"
 
-                    android:text="Information Page."
+                    android:text="Information page."
                     android:textColor="@color/black"
                     android:translationZ="4dp" />
             </LinearLayout>

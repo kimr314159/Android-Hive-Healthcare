@@ -30,9 +30,10 @@ import android.os.StrictMode;
 import android.speech.RecognizerIntent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
@@ -42,13 +43,16 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageView buttonSend;
     private ImageView buttonSpeech;
+    private TextView textName;
     private EditText textMessage;
     private static TextView textLog;
     private GoogleCredentials credentials;
     private SessionName sessionName;
     private SessionsClient sessionsClient;
-    private TextView buttonDiscussionOption;
-//    private Button buttonInformationOption;
+    private LinearLayout buttonDiscussionOption;
+    private LinearLayout buttonInformationOption;
+    private LinearLayout layoutInformationPage;
+    private ImageButton buttonReturnToOptions;
     private final int VOICE_REQUEST_CODE = 200;
 
 
@@ -56,6 +60,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        textName = (TextView) findViewById(R.id.text_name);
+        textName.setAlpha(0);
+        textName.animate().alpha(1.0f).setDuration(3000).start();
+
+
         Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {
             @Override
@@ -67,8 +76,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void getOptionsLayout(){
         setContentView(R.layout.activity_display_options);
-//        buttonInformationOption = (Button) findViewById(R.id.button_info_option);
-        buttonDiscussionOption = (TextView) findViewById(R.id.button_discussion_option);
+        buttonDiscussionOption = (LinearLayout) findViewById(R.id.layout_discussion);
+        buttonInformationOption = (LinearLayout) findViewById(R.id.layout_information);
 
         buttonDiscussionOption.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,10 +116,39 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        buttonInformationOption.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    setContentView(R.layout.activity_information_sheet);
+                    layoutInformationPage = (LinearLayout) findViewById(R.id.layout_information_page);
+                    buttonReturnToOptions = (ImageButton) findViewById(R.id.button_return);
+                    layoutInformationPage.setAlpha(0);
+                    layoutInformationPage.animate().alpha(1.0f).setDuration(3000).start();
+                    //Speech recognition
+                    buttonReturnToOptions.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            try {
+                                getOptionsLayout();
+                            }catch (Exception e){
+                                System.err.println("Failed to detect speech." + e);
+                            }
+                        }
+                    });
+
+
+                }catch (Exception e){
+                    System.err.println("Failed to load 'Information option'." + e);
+                }
+            }
+        });
+
+
         buttonDiscussionOption.setAlpha(0);
-        buttonDiscussionOption.animate().alpha(1.0f).setDuration(1500).start();
-//        buttonInformationOption.setAlpha(0);
-//        buttonInformationOption.animate().alpha(1.0f).setDuration(1500).start();
+        buttonDiscussionOption.animate().alpha(1.0f).setDuration(3000).start();
+        buttonInformationOption.setAlpha(0);
+        buttonInformationOption.animate().alpha(1.0f).setDuration(3000).start();
         buttonDiscussionOption.setZ(20);
     }
 
