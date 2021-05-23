@@ -163,18 +163,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-//        buttonDiscussionOption.setAlpha(0);
-//        buttonDiscussionOption.animate().alpha(1.0f).setDuration(3000).start();
-//        buttonInformationOption.setAlpha(0);
-//        buttonInformationOption.animate().alpha(1.0f).setDuration(3000).start();
         layoutDisplayOptions.setAlpha(0);
         layoutDisplayOptions.animate().alpha(1.0f).setDuration(3000).start();
-
-
-
-
         buttonDiscussionOption.setZ(20);
     }
 
@@ -182,8 +172,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
             if (resultCode == RESULT_OK && null != intent && VOICE_REQUEST_CODE==requestCode) {
                 ArrayList<String> result = intent.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+
+                String results = result.get(0);
                 textLog.append(System.lineSeparator());
-                textLog.append(result.get(0));
+                textLog.append(results);
+                try {
+                    sendMessage(results);
+                } catch(Exception e){
+                    System.err.println("Failed to send message using voice recognition. " + e);
+                }
             }
         super.onActivityResult(requestCode, resultCode, intent);
     }
@@ -200,11 +197,8 @@ public class MainActivity extends AppCompatActivity {
                     textLog.append(System.lineSeparator());
                     textLog.append(message);
                     System.out.println("Get Message: " + message);
-                    DialogFlowThread dialogFlowThread = new DialogFlowThread(message, sessionsClient, sessionName, knowledgeBaseName);
-                    dialogFlowThread.start();
-                    dialogFlowThread.join();
-                    textLog.append(System.lineSeparator());
-                    textLog.append(dialogFlowThread.getQueryResult());
+                    sendMessage(message);
+
 
                     //Hide soft keyboard
                     InputMethodManager inputMethodManager =(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -214,6 +208,22 @@ public class MainActivity extends AppCompatActivity {
                 }
 
         }
+    }
+
+
+
+    public void updateDiscussion(String text) {
+
+        textLog.append(System.lineSeparator());
+        textLog.append(text);
+        textLog.append(System.lineSeparator());
+    }
+
+    public void sendMessage(String message) throws InterruptedException {
+        DialogFlowThread dialogFlowThread = new DialogFlowThread(message, sessionsClient, sessionName, knowledgeBaseName);
+        dialogFlowThread.start();
+        dialogFlowThread.join();
+        updateDiscussion(dialogFlowThread.getQueryResult());
     }
 
 
