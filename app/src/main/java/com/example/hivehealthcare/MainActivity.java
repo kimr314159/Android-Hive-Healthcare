@@ -5,13 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.api.gax.core.FixedCredentialsProvider;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.auth.oauth2.ServiceAccountCredentials;
-import com.google.cloud.dialogflow.v2.DetectIntentRequest;
-import com.google.cloud.dialogflow.v2.QueryInput;
-import com.google.cloud.dialogflow.v2.QueryResult;
-import com.google.cloud.dialogflow.v2.SessionName;
-import com.google.cloud.dialogflow.v2.SessionsClient;
-import com.google.cloud.dialogflow.v2.SessionsSettings;
-import com.google.cloud.dialogflow.v2.TextInput;
+import com.google.cloud.dialogflow.v2beta1.*;
+
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -30,14 +25,15 @@ import android.os.StrictMode;
 import android.speech.RecognizerIntent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
 import java.io.InputStream;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,8 +48,12 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout buttonDiscussionOption;
     private LinearLayout buttonInformationOption;
     private LinearLayout layoutInformationPage;
-    private ImageButton buttonReturnToOptions;
+    private Button buttonReturnToOptions;
+    private LinearLayout layoutDiscussion;
+    private LinearLayout layoutDisplayOptions;
     private final int VOICE_REQUEST_CODE = 200;
+    private String knowledgeBaseName;
+
 
 
     @Override
@@ -63,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
         textName = (TextView) findViewById(R.id.text_name);
         textName.setAlpha(0);
         textName.animate().alpha(1.0f).setDuration(3000).start();
+
+        knowledgeBaseName =  getResources().getString(R.string.knowledge_base_id);
+        System.out.println(knowledgeBaseName);
 
 
         Handler handler = new Handler(Looper.getMainLooper());
@@ -78,12 +81,29 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_display_options);
         buttonDiscussionOption = (LinearLayout) findViewById(R.id.layout_discussion);
         buttonInformationOption = (LinearLayout) findViewById(R.id.layout_information);
+        layoutDisplayOptions = (LinearLayout) findViewById(R.id.layout_display_options);
 
         buttonDiscussionOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
+                    //layout_discussion
                     setContentView(R.layout.activity_main);
+                    layoutDiscussion = (LinearLayout) findViewById(R.id.layout_discussion);
+                    layoutDiscussion.setAlpha(0);
+                    layoutDiscussion.animate().alpha(1.0f).setDuration(3000).start();
+                    buttonReturnToOptions = (Button) findViewById(R.id.button_return);
+                    buttonReturnToOptions.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            try {
+                                getOptionsLayout();
+                            }catch (Exception e){
+                                System.err.println("Failed to return to options page." + e);
+                            }
+                        }
+                    });
+
                     buttonSpeech = (ImageView) findViewById(R.id.buttonSpeech);
                     buttonSend = (ImageView) findViewById(R.id.buttonSend);
                     textMessage = (EditText) findViewById(R.id.textMessage);
@@ -122,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     setContentView(R.layout.activity_information_sheet);
                     layoutInformationPage = (LinearLayout) findViewById(R.id.layout_information_page);
-                    buttonReturnToOptions = (ImageButton) findViewById(R.id.button_return);
+                    buttonReturnToOptions = (Button) findViewById(R.id.button_return);
                     layoutInformationPage.setAlpha(0);
                     layoutInformationPage.animate().alpha(1.0f).setDuration(3000).start();
                     //Speech recognition
@@ -132,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
                             try {
                                 getOptionsLayout();
                             }catch (Exception e){
-                                System.err.println("Failed to detect speech." + e);
+                                System.err.println("Failed to return to options page." + e);
                             }
                         }
                     });
@@ -145,10 +165,16 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        buttonDiscussionOption.setAlpha(0);
-        buttonDiscussionOption.animate().alpha(1.0f).setDuration(3000).start();
-        buttonInformationOption.setAlpha(0);
-        buttonInformationOption.animate().alpha(1.0f).setDuration(3000).start();
+//        buttonDiscussionOption.setAlpha(0);
+//        buttonDiscussionOption.animate().alpha(1.0f).setDuration(3000).start();
+//        buttonInformationOption.setAlpha(0);
+//        buttonInformationOption.animate().alpha(1.0f).setDuration(3000).start();
+        layoutDisplayOptions.setAlpha(0);
+        layoutDisplayOptions.animate().alpha(1.0f).setDuration(3000).start();
+
+
+
+
         buttonDiscussionOption.setZ(20);
     }
 
@@ -174,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
                     textLog.append(System.lineSeparator());
                     textLog.append(message);
                     System.out.println("Get Message: " + message);
-                    DialogFlowThread dialogFlowThread = new DialogFlowThread(message, sessionsClient, sessionName);
+                    DialogFlowThread dialogFlowThread = new DialogFlowThread(message, sessionsClient, sessionName, knowledgeBaseName);
                     dialogFlowThread.start();
                     dialogFlowThread.join();
                     textLog.append(System.lineSeparator());
@@ -240,26 +266,31 @@ class DialogFlowThread extends Thread {
     private SessionsClient sessionClient;
     private SessionName sessionName;
     private String result;
+    private String knowledgeBaseName;
 
-    DialogFlowThread(String message, SessionsClient sessionClient, SessionName sessionName) {
+
+    DialogFlowThread(String message, SessionsClient sessionClient, SessionName sessionName,  String knowledgeBaseName) {
         this.queryMessage= message;
         this.sessionClient = sessionClient;
         this.sessionName = sessionName;
+        this.knowledgeBaseName = knowledgeBaseName;
     }
 
     public void run() {
         System.out.println("Running Thread and sending query.");
-        sendQuery(this.queryMessage, this.sessionClient, this.sessionName);
+        sendQuery(this.queryMessage, this.sessionClient, this.sessionName, this.knowledgeBaseName);
     }
 
     String getQueryResult(){
         return result;
     }
 
-    private void sendQuery(String message, SessionsClient sessionsClient, SessionName sessionName) {
+    private void sendQuery(String message, SessionsClient sessionsClient, SessionName sessionName, String knowledgeBaseName) {
+        System.out.println(knowledgeBaseName);
         try {
             QueryInput queryInput = QueryInput.newBuilder() .setText(TextInput.newBuilder().setText(message).setLanguageCode("en-US")).build();
-            DetectIntentRequest detectIntentRequest = DetectIntentRequest.newBuilder().setSession(sessionName.toString()).setQueryInput(queryInput).build();
+            QueryParameters queryParameters = QueryParameters.newBuilder().addKnowledgeBaseNames(knowledgeBaseName).build();
+            DetectIntentRequest detectIntentRequest =DetectIntentRequest.newBuilder().setSession(sessionName.toString()).setQueryInput(queryInput).setQueryParams(queryParameters).build();
             QueryResult queryResult = sessionsClient.detectIntent(detectIntentRequest).getQueryResult();
             this.result = queryResult.getFulfillmentText();
             System.out.println(this.result);

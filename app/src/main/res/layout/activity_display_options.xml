@@ -8,6 +8,7 @@
     tools:context=".DisplayOptionsActivity">
 
     <LinearLayout
+        android:id="@+id/layout_display_options"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#FFFFFF"
@@ -51,18 +52,30 @@
                     android:scaleType="centerCrop"
                     app:srcCompat="@drawable/option1" />
 
-                <TextView
-                    android:id="@+id/button_discussion_option"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="116dp"
+                    android:layout_height="100dp"
                     android:background="@drawable/option_button_shadow"
                     android:elevation="7dp"
-                    android:fontFamily="sans-serif-medium"
                     android:gravity="left"
-                    android:padding="30dp"
-                    android:text="Chat with us."
-                    android:textColor="@color/black"
-                    android:translationZ="4dp" />
+                    android:orientation="vertical"
+                    android:padding="20dp"
+                    android:translationZ="4dp">
+
+                    <TextView
+                        android:id="@+id/textView13"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Chat with us."
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textView14"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ask us questions and recieve advice about HIV/Aids related information." />
+                </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -74,25 +87,35 @@
                 <ImageView
                     android:id="@+id/imageView2"
                     android:layout_width="match_parent"
-                    android:layout_height="128dp"
+                    android:layout_height="154dp"
                     android:scaleType="centerCrop"
                     app:srcCompat="@drawable/option2" />
 
-                <TextView
-                    android:id="@+id/button_information_sheet"
-                    android:layout_width="match_parent"
-                    android:layout_height="143dp"
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="vertical"
                     android:background="@drawable/option_button_shadow"
                     android:elevation="7dp"
-                    android:fontFamily="sans-serif-medium"
-
                     android:gravity="left"
-                    android:padding="30dp"
+                    android:padding="20dp"
+                    android:translationZ="4dp">
 
-                    android:text="Information page."
-                    android:textColor="@color/black"
-                    android:translationZ="4dp" />
+                    <TextView
+                        android:id="@+id/textView15"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Information Page."
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textView16"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Learn more about HIV/Aids using our informational text page." />
+                </LinearLayout>
+
             </LinearLayout>
 
 
