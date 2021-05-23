@@ -172,8 +172,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
             if (resultCode == RESULT_OK && null != intent && VOICE_REQUEST_CODE==requestCode) {
                 ArrayList<String> result = intent.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-
                 String results = result.get(0);
+                results = results.replace(getResources().getString(R.string.resultRegex),getResources().getString(R.string.resultRegexUpdate));//Eventually use regex
                 textLog.append(System.lineSeparator());
                 textLog.append(results);
                 try {
