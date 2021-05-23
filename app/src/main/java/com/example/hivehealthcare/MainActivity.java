@@ -6,13 +6,15 @@ import com.google.api.gax.core.FixedCredentialsProvider;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.auth.oauth2.ServiceAccountCredentials;
 import com.google.cloud.dialogflow.v2beta1.*;
-
+import com.google.cloud.translate.*;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -59,6 +61,7 @@ public class MainActivity extends AppCompatActivity  {
     private String knowledgeBaseName;
     private static Context context;
     TextToSpeech textToSpeech;
+    private Translate translate;
 
 
     @Override
@@ -88,9 +91,32 @@ public class MainActivity extends AppCompatActivity  {
         });
     }
 
+
+
+    public void setupTranslator() {
+        try  {
+            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitAll().build());
+            TranslateOptions translateOptions = TranslateOptions.newBuilder().setCredentials(credentials).build();
+            translate = translateOptions.getService();
+        }catch (Exception e){
+            System.err.println("Failed to configure translate." + e);
+        }
+    }
+
+
+    public void translate() {
+        System.out.println("test!!!");
+        Translation translation = translate.translate("Hello Kim",
+                Translate.TranslateOption.sourceLanguage("en"),
+                Translate.TranslateOption.targetLanguage("fr"));
+        System.out.println(translation.getTranslatedText());
+
+    }
+
     private void startTextToSpeech(String str) {
         textToSpeech.speak(str, TextToSpeech.QUEUE_FLUSH, null, null);
     }
+
 
     public void createOutResponse(LinearLayout viewResponses, String str){
         System.out.println("createOutMessage");
@@ -149,15 +175,17 @@ public class MainActivity extends AppCompatActivity  {
                     buttonSpeech = (ImageView) findViewById(R.id.buttonSpeech);
                     buttonSend = (ImageView) findViewById(R.id.buttonSend);
                     textMessage = (EditText) findViewById(R.id.textMessage);
-
-
-                    createInResponse(viewResponses, "Hello, ask questions about HIV/Aids and I will try my best to answer.");
-
-
                     setCredentials();
+                    createInResponse(viewResponses, "Hello, ask questions about HIV/Aids and I will try my best to answer.");
                     createSession();
                     StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitAll().build());
                     sendWhoRequest("USA");
+
+
+                    setupTranslator();
+                    translate();
+
+
                     buttonReturnToOptions.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -254,13 +282,7 @@ public class MainActivity extends AppCompatActivity  {
                     createOutResponse(viewResponses,message);
                     sendMessage(message);
 
-
-
-
-
-
-
-                    //Hide soft keyboard
+                    //Hide keys
                     InputMethodManager inputMethodManager =(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }catch(Exception e){
@@ -360,4 +382,12 @@ class DialogFlowThread extends Thread {
             System.err.println("Failed to send query." + e);
         }
     }
+
+
+
+
+
+
+
+
 }
