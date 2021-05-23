@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background=" #111427"
-    android:padding="30px"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -24,20 +23,37 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="526dp"
-                android:background=" #111427"
-                android:orientation="horizontal">
+                android:layout_height="512dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/textLog"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="fill_parent"
+                    android:layout_height="17dp"
                     android:layout_weight="1"
                     android:padding="50px"
                     android:text="Responses:"
                     android:textColor="#FFFFFF"
                     android:textSize="14dp" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="323dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <LinearLayout
+                            android:id="@+id/view_responses"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"></LinearLayout>
+                    </ScrollView>
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout

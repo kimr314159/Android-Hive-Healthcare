@@ -18,24 +18,27 @@ import java.util.UUID;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.StrictMode;
 import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-
 import java.io.InputStream;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
     private ImageView buttonSend;
     private ImageView buttonSpeech;
@@ -45,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private GoogleCredentials credentials;
     private SessionName sessionName;
     private SessionsClient sessionsClient;
+    private LinearLayout viewResponses;
     private LinearLayout buttonDiscussionOption;
     private LinearLayout buttonInformationOption;
     private LinearLayout layoutInformationPage;
@@ -53,7 +57,8 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout layoutDisplayOptions;
     private final int VOICE_REQUEST_CODE = 200;
     private String knowledgeBaseName;
-
+    private static Context context;
+    TextToSpeech textToSpeech;
 
 
     @Override
@@ -63,17 +68,62 @@ public class MainActivity extends AppCompatActivity {
         textName = (TextView) findViewById(R.id.text_name);
         textName.setAlpha(0);
         textName.animate().alpha(1.0f).setDuration(3000).start();
-
         knowledgeBaseName =  getResources().getString(R.string.knowledge_base_id);
-        System.out.println(knowledgeBaseName);
-
-
         Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 getOptionsLayout();
             }}, 2000);
+
+        textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    int result = textToSpeech.setLanguage(Locale.UK);
+                } else {
+                    System.err.println("Failed to setup text to voice.");
+                }
+            }
+        });
+    }
+
+    private void startTextToSpeech(String str) {
+        textToSpeech.speak(str, TextToSpeech.QUEUE_FLUSH, null, null);
+    }
+
+    public void createOutResponse(LinearLayout viewResponses, String str){
+        System.out.println("createOutMessage");
+        LinearLayout linearLayout = new LinearLayout(MainActivity.this);
+        linearLayout.setGravity(Gravity.RIGHT);
+        linearLayout.setPadding(0,20,0,20);
+        TextView textView = new TextView(MainActivity.this);
+        textView.setText(str);
+
+        textView.setBackgroundColor(0xfff00000);
+        textView.setTextColor(Color.BLUE);
+        textView.setPadding(40,20,40,20);
+        textView.setBackgroundResource(R.color.white);
+        textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        viewResponses.addView(linearLayout);
+        linearLayout.addView(textView);
+    }
+
+    public void createInResponse(LinearLayout viewResponses, String str){
+        startTextToSpeech(str);
+        System.out.println("createInResponse");
+        LinearLayout linearLayout = new LinearLayout(MainActivity.this);
+        linearLayout.setGravity(Gravity.LEFT);
+        linearLayout.setPadding(0,20,0,20);
+        TextView textView = new TextView(MainActivity.this);
+        textView.setText(str);
+        textView.setTextColor(Color.GRAY);
+        textView.setPadding(40,20,40,20);
+        textView.setBackgroundResource(R.color.white);
+        textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        viewResponses.addView(linearLayout);
+        linearLayout.addView(textView);
     }
 
 
@@ -93,6 +143,21 @@ public class MainActivity extends AppCompatActivity {
                     layoutDiscussion.setAlpha(0);
                     layoutDiscussion.animate().alpha(1.0f).setDuration(3000).start();
                     buttonReturnToOptions = (Button) findViewById(R.id.button_return);
+                    viewResponses = (LinearLayout) findViewById(R.id.view_responses);
+                    textLog = (TextView) findViewById(R.id.textLog);
+
+                    buttonSpeech = (ImageView) findViewById(R.id.buttonSpeech);
+                    buttonSend = (ImageView) findViewById(R.id.buttonSend);
+                    textMessage = (EditText) findViewById(R.id.textMessage);
+
+
+                    createInResponse(viewResponses, "Hello, ask questions about HIV/Aids and I will try my best to answer.");
+
+
+                    setCredentials();
+                    createSession();
+                    StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitAll().build());
+                    sendWhoRequest("USA");
                     buttonReturnToOptions.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -104,14 +169,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
 
-                    buttonSpeech = (ImageView) findViewById(R.id.buttonSpeech);
-                    buttonSend = (ImageView) findViewById(R.id.buttonSend);
-                    textMessage = (EditText) findViewById(R.id.textMessage);
-                    textLog = (TextView) findViewById(R.id.textLog);
-                    setCredentials();
-                    createSession();
-                    StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitAll().build());
-                    sendWhoRequest("USA");
                 }catch (Exception e){
                     System.err.println("Failed to load 'discussions' option." + e);
                 }
@@ -170,18 +227,17 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-            if (resultCode == RESULT_OK && null != intent && VOICE_REQUEST_CODE==requestCode) {
-                ArrayList<String> result = intent.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                String results = result.get(0);
-                results = results.replace(getResources().getString(R.string.resultRegex),getResources().getString(R.string.resultRegexUpdate));//Eventually use regex
-                textLog.append(System.lineSeparator());
-                textLog.append(results);
-                try {
-                    sendMessage(results);
-                } catch(Exception e){
-                    System.err.println("Failed to send message using voice recognition. " + e);
-                }
+        if (resultCode == RESULT_OK && null != intent && VOICE_REQUEST_CODE==requestCode) {
+            ArrayList<String> result = intent.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            String results = result.get(0);
+            results = results.replace(getResources().getString(R.string.resultRegex),getResources().getString(R.string.resultRegexUpdate));
+            createOutResponse(viewResponses, results);
+            try {
+                sendMessage(results);
+            } catch(Exception e){
+                System.err.println("Failed to send message using voice recognition. " + e);
             }
+        }
         super.onActivityResult(requestCode, resultCode, intent);
     }
 
@@ -194,10 +250,14 @@ public class MainActivity extends AppCompatActivity {
                 try{
                     String message = textMessage.getText().toString();
                     textMessage.setText("");
-                    textLog.append(System.lineSeparator());
-                    textLog.append(message);
                     System.out.println("Get Message: " + message);
+                    createOutResponse(viewResponses,message);
                     sendMessage(message);
+
+
+
+
+
 
 
                     //Hide soft keyboard
@@ -211,19 +271,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-    public void updateDiscussion(String text) {
-
-        textLog.append(System.lineSeparator());
-        textLog.append(text);
-        textLog.append(System.lineSeparator());
-    }
-
     public void sendMessage(String message) throws InterruptedException {
         DialogFlowThread dialogFlowThread = new DialogFlowThread(message, sessionsClient, sessionName, knowledgeBaseName);
         dialogFlowThread.start();
         dialogFlowThread.join();
-        updateDiscussion(dialogFlowThread.getQueryResult());
+        createInResponse(viewResponses, dialogFlowThread.getQueryResult());
     }
 
 
