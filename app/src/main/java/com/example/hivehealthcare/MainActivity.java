@@ -9,12 +9,10 @@ import com.google.cloud.dialogflow.v2beta1.*;
 import com.google.cloud.translate.*;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -27,7 +25,6 @@ import android.os.Looper;
 import android.os.StrictMode;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +52,7 @@ public class MainActivity extends AppCompatActivity  {
     private LinearLayout buttonInformationOption;
     private LinearLayout layoutInformationPage;
     private Button buttonReturnToOptions;
+    private Button buttonTranslate;
     private LinearLayout layoutDiscussion;
     private LinearLayout layoutDisplayOptions;
     private final int VOICE_REQUEST_CODE = 200;
@@ -62,6 +60,10 @@ public class MainActivity extends AppCompatActivity  {
     private static Context context;
     TextToSpeech textToSpeech;
     private Translate translate;
+    String targetLanguage;
+    Locale targetLanguageForTTS;
+    Intent speechIntent;
+
 
 
     @Override
@@ -79,11 +81,15 @@ public class MainActivity extends AppCompatActivity  {
                 getOptionsLayout();
             }}, 2000);
 
+        updateTextToSpeech();
+    }
+
+    public void updateTextToSpeech(){
         textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
                 if (status == TextToSpeech.SUCCESS) {
-                    int result = textToSpeech.setLanguage(Locale.UK);
+                    int result = textToSpeech.setLanguage(targetLanguageForTTS);
                 } else {
                     System.err.println("Failed to setup text to voice.");
                 }
@@ -104,12 +110,13 @@ public class MainActivity extends AppCompatActivity  {
     }
 
 
-    public void translate() {
-        System.out.println("test!!!");
-        Translation translation = translate.translate("Hello Kim",
+    public String translate(String str) {
+        Translation translation = translate.translate(str,
                 Translate.TranslateOption.sourceLanguage("en"),
-                Translate.TranslateOption.targetLanguage("fr"));
+                Translate.TranslateOption.targetLanguage(targetLanguage));
         System.out.println(translation.getTranslatedText());
+
+        return translation.getTranslatedText();
 
     }
 
@@ -137,6 +144,12 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     public void createInResponse(LinearLayout viewResponses, String str){
+        if(targetLanguage!="en"){
+            str = translate(str);
+            str = str.replaceAll("&#39;","'");
+        }
+
+
         startTextToSpeech(str);
         System.out.println("createInResponse");
         LinearLayout linearLayout = new LinearLayout(MainActivity.this);
@@ -165,6 +178,11 @@ public class MainActivity extends AppCompatActivity  {
                 try {
                     //layout_discussion
                     setContentView(R.layout.activity_main);
+                    //Default Lang
+                    targetLanguage = "en";
+                    targetLanguageForTTS = Locale.ENGLISH;
+//                    updateTextToSpeech();
+
                     layoutDiscussion = (LinearLayout) findViewById(R.id.layout_discussion);
                     layoutDiscussion.setAlpha(0);
                     layoutDiscussion.animate().alpha(1.0f).setDuration(3000).start();
@@ -173,6 +191,7 @@ public class MainActivity extends AppCompatActivity  {
                     textLog = (TextView) findViewById(R.id.textLog);
 
                     buttonSpeech = (ImageView) findViewById(R.id.buttonSpeech);
+                    buttonTranslate = (Button) findViewById(R.id.button_translate);
                     buttonSend = (ImageView) findViewById(R.id.buttonSend);
                     textMessage = (EditText) findViewById(R.id.textMessage);
                     setCredentials();
@@ -182,8 +201,23 @@ public class MainActivity extends AppCompatActivity  {
                     sendWhoRequest("USA");
 
 
-                    setupTranslator();
-                    translate();
+
+                    buttonTranslate.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            try {
+                                setupTranslator();
+                                //Src to find language codes: https://developers.google.com/admin-sdk/directory/v1/languages
+                                targetLanguage = "fr";
+                                targetLanguageForTTS = Locale.FRENCH;
+                                translate("Hello, Kim");
+                                updateTextToSpeech();
+                                updateSpeechIntent();
+                            }catch (Exception e){
+                                System.err.println("Failed to translate." + e);
+                            }
+                        }
+                    });
 
 
                     buttonReturnToOptions.setOnClickListener(new View.OnClickListener() {
@@ -206,13 +240,8 @@ public class MainActivity extends AppCompatActivity  {
                     @Override
                     public void onClick(View v) {
                         try {
-                            Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-                            intent.putExtra(RecognizerIntent.EXTRA_PROMPT,"Detecting speech.");
-                            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-                            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault().toString());
-                            intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 500);
-                            intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
-                            startActivityForResult(intent, VOICE_REQUEST_CODE);
+                            updateSpeechIntent();
+                            startActivityForResult(speechIntent, VOICE_REQUEST_CODE);
                         }catch (Exception e){
                             System.err.println("Failed to detect speech." + e);
                         }
@@ -253,10 +282,13 @@ public class MainActivity extends AppCompatActivity  {
         buttonDiscussionOption.setZ(20);
     }
 
+
+
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (resultCode == RESULT_OK && null != intent && VOICE_REQUEST_CODE==requestCode) {
-            ArrayList<String> result = intent.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+    protected void onActivityResult(int requestCode, int resultCode, Intent speechIntent) {
+        if (resultCode == RESULT_OK && null != speechIntent && VOICE_REQUEST_CODE==requestCode) {
+            ArrayList<String> result = speechIntent.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             String results = result.get(0);
             results = results.replace(getResources().getString(R.string.resultRegex),getResources().getString(R.string.resultRegexUpdate));
             createOutResponse(viewResponses, results);
@@ -266,7 +298,7 @@ public class MainActivity extends AppCompatActivity  {
                 System.err.println("Failed to send message using voice recognition. " + e);
             }
         }
-        super.onActivityResult(requestCode, resultCode, intent);
+        super.onActivityResult(requestCode, resultCode, speechIntent);
     }
 
 
@@ -292,6 +324,20 @@ public class MainActivity extends AppCompatActivity  {
         }
     }
 
+    public void updateSpeechIntent(){
+        speechIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        speechIntent.putExtra(RecognizerIntent.EXTRA_PROMPT,"Detecting speech.");
+        speechIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, targetLanguage);
+
+        speechIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, targetLanguage);
+        speechIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, targetLanguage);
+        speechIntent.putExtra(RecognizerIntent.EXTRA_ONLY_RETURN_LANGUAGE_PREFERENCE, targetLanguage);
+
+//                            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+//                            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault().toString());
+        speechIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 500);
+        speechIntent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
+    }
 
     public void sendMessage(String message) throws InterruptedException {
         DialogFlowThread dialogFlowThread = new DialogFlowThread(message, sessionsClient, sessionName, knowledgeBaseName);

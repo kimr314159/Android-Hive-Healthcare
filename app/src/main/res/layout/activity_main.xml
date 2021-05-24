@@ -23,28 +23,26 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="512dp"
+                android:layout_height="400dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/textLog"
-                    android:layout_width="fill_parent"
-                    android:layout_height="17dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:padding="50px"
                     android:text="Responses:"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14dp" />
+                    android:textColor="#FFFFFF" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="323dp"
+                    android:layout_height="300dp"
                     android:layout_weight="1"
                     android:orientation="vertical">
 
                     <ScrollView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="202dp"
                         android:layout_weight="1">
 
                         <LinearLayout
@@ -54,6 +52,7 @@
                             android:orientation="vertical"></LinearLayout>
                     </ScrollView>
                 </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -97,6 +96,13 @@
                     app:srcCompat="@android:drawable/ic_menu_send" />
 
             </LinearLayout>
+
+            <Button
+                android:id="@+id/button_translate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="In French Mode" />
 
             <Button
                 android:id="@+id/button_return"
