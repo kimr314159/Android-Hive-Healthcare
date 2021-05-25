@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background=" #111427"
+    android:onClick="changeLanguageAlertDialog"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -97,12 +98,28 @@
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/button_translate"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="In French Mode" />
+                android:layout_height="107dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button_translate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="In French Mode" />
+
+                <Button
+                    android:id="@+id/button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:onClick="changeLanguageAlertDialog"
+                    android:text="Change Language"
+                    app:strokeColor="#A64A4A" />
+
+            </LinearLayout>
 
             <Button
                 android:id="@+id/button_return"

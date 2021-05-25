@@ -6,3 +6,5 @@
 * Kim Huynh [kimhuynh@gatech.edu](mailto:kimhuynh@gatech.edu)
 
 
+**Technologies Used**  
+Android Studios SDK Version 30, Dialogflow, Google Cloud Translation, Google Text-To-Speech, JUnit

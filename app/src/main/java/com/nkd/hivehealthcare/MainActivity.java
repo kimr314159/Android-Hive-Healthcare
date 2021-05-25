@@ -1,5 +1,6 @@
 package com.nkd.hivehealthcare;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.api.gax.core.FixedCredentialsProvider;
@@ -17,6 +18,7 @@ import java.util.Locale;
 import java.util.UUID;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -34,6 +36,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.io.InputStream;
 
 
@@ -100,6 +104,8 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
     }
+
+
 
 
 
@@ -305,6 +311,20 @@ public class MainActivity extends AppCompatActivity  {
         super.onActivityResult(requestCode, resultCode, speechIntent);
     }
 
+
+
+    public void changeLanguageAlertDialog(View view) throws Exception {
+        AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+        alertDialog.setTitle("Change Language.");
+        alertDialog.setMessage("Please enter your selected language.");
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Save Changes",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        Toast.makeText(MainActivity.this, "Saving Language Preferences", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        alertDialog.show();
+    }
 
 
     public void handleClick(View view) throws InterruptedException {
