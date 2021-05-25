@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity  {
         linearLayout.addView(textView);
     }
 
-    public void createInResponse(LinearLayout viewResponses, String str){
+    public String createInResponse(LinearLayout viewResponses, String str){
         if(targetLanguage!="en"){
             str = translate(str);
             str = str.replaceAll("&#39;","'");
@@ -167,6 +167,8 @@ public class MainActivity extends AppCompatActivity  {
         textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         viewResponses.addView(linearLayout);
         linearLayout.addView(textView);
+
+        return str;
     }
 
 
@@ -201,7 +203,7 @@ public class MainActivity extends AppCompatActivity  {
                     setCredentials();
                     createInResponse(viewResponses, "Hello, ask questions about HIV/Aids and I will try my best to answer.");
                     createSession();
-                    StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitAll().build());
+
                     sendWhoRequest("USA");
 
 
@@ -274,8 +276,6 @@ public class MainActivity extends AppCompatActivity  {
                             }
                         }
                     });
-
-
                 }catch (Exception e){
                     System.err.println("Failed to load 'Information option'." + e);
                 }
@@ -332,26 +332,21 @@ public class MainActivity extends AppCompatActivity  {
         speechIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         speechIntent.putExtra(RecognizerIntent.EXTRA_PROMPT,"Detecting speech.");
         speechIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, targetLanguage);
-
-        speechIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, targetLanguage);
         speechIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, targetLanguage);
         speechIntent.putExtra(RecognizerIntent.EXTRA_ONLY_RETURN_LANGUAGE_PREFERENCE, targetLanguage);
-
-//                            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-//                            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault().toString());
         speechIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 500);
         speechIntent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
     }
 
-    public void sendMessage(String message) throws InterruptedException {
+    public String sendMessage(String message) throws InterruptedException {
         DialogFlowThread dialogFlowThread = new DialogFlowThread(message, sessionsClient, sessionName, knowledgeBaseName);
         dialogFlowThread.start();
         dialogFlowThread.join();
-        createInResponse(viewResponses, dialogFlowThread.getQueryResult());
+        return createInResponse(viewResponses, dialogFlowThread.getQueryResult());
     }
 
 
-    private void setCredentials() {
+    public void setCredentials() {
         try{
             InputStream in = this.getResources().openRawResource(R.raw.credentials);
             credentials = GoogleCredentials.fromStream(in);
@@ -360,8 +355,9 @@ public class MainActivity extends AppCompatActivity  {
         }
     }
 
-    private void createSession() {
+    public void createSession() {
         try{
+            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitAll().build());
             SessionsSettings.Builder settingsBuilder = SessionsSettings.newBuilder();
             SessionsSettings sessionsSettings = settingsBuilder.setCredentialsProvider(FixedCredentialsProvider.create(credentials)).build();
             String projectId = ((ServiceAccountCredentials) credentials).getProjectId();
