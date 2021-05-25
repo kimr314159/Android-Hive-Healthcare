@@ -19,6 +19,7 @@ import java.util.UUID;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -71,8 +72,12 @@ public class MainActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         textName = (TextView) findViewById(R.id.text_name);
-        textName.setAlpha(0);
+        textName.setAlpha(0f);
         textName.animate().alpha(1.0f).setDuration(3000).start();
+
+
+
+
         knowledgeBaseName =  getResources().getString(R.string.knowledge_base_id);
         Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {
