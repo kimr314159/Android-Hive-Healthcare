@@ -1,4 +1,4 @@
-package com.example.hivehealthcare;
+package com.nkd.hivehealthcare;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,7 +19,6 @@ import java.util.UUID;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;

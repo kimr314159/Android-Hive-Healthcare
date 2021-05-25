@@ -1,4 +1,4 @@
-package com.example.hivehealthcare;
+package com.nkd.hivehealthcare;
 
 import androidx.fragment.app.FragmentActivity;
 

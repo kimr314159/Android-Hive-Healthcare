@@ -12,7 +12,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.example.hivehealthcare"
+        applicationId "com.nkd.hivehealthcare"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1

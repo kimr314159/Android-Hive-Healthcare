@@ -1,13 +1,14 @@
-package com.example.hivehealthcare;
+package com.nkd.hivehealthcare;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 
-public class InformationSheetActivity extends AppCompatActivity {
+public class DisplayOptionsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_information_sheet);
+        setContentView(R.layout.activity_display_options);
     }
 }

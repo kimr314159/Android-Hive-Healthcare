@@ -1,4 +1,4 @@
-package com.example.hivehealthcare;
+package com.nkd.hivehealthcare;
 
 import org.junit.Test;
 
