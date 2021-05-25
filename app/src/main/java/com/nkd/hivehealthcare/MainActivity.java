@@ -314,8 +314,11 @@ public class MainActivity extends AppCompatActivity  {
 
 
     public void changeLanguageAlertDialog(View view) throws Exception {
+        EditText editText = new EditText(this);
+        editText.setHint("Enter language here.");
         AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
         alertDialog.setTitle("Change Language.");
+        alertDialog.setView(editText);
         alertDialog.setMessage("Please enter your selected language.");
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Save Changes",new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
