@@ -2,6 +2,7 @@ package com.nkd.hivehealthcare;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.google.api.Distribution;
 import com.google.api.gax.core.FixedCredentialsProvider;
@@ -137,13 +138,12 @@ public class MainActivity extends AppCompatActivity  {
         LinearLayout linearLayout = new LinearLayout(MainActivity.this);
         linearLayout.setGravity(Gravity.RIGHT);
         linearLayout.setPadding(0,20,0,20);
+//        linearLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         TextView textView = new TextView(MainActivity.this);
         textView.setText(str);
-
-        textView.setBackgroundColor(0xfff00000);
-        textView.setTextColor(Color.BLUE);
+        textView.setTextColor(Color.parseColor("#6c77a1"));
         textView.setPadding(40,20,40,20);
-        textView.setBackgroundResource(R.color.white);
+        textView.setBackground(ContextCompat.getDrawable(this, R.drawable.outmessage_background));
         textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         viewResponses.addView(linearLayout);
         linearLayout.addView(textView);
@@ -161,11 +161,12 @@ public class MainActivity extends AppCompatActivity  {
         LinearLayout linearLayout = new LinearLayout(MainActivity.this);
         linearLayout.setGravity(Gravity.LEFT);
         linearLayout.setPadding(0,20,0,20);
+        linearLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.inmessage_background));
+        linearLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         TextView textView = new TextView(MainActivity.this);
         textView.setText(str);
-        textView.setTextColor(Color.GRAY);
+        textView.setTextColor(Color.parseColor("#494a52"));
         textView.setPadding(40,20,40,20);
-        textView.setBackgroundResource(R.color.white);
         textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         viewResponses.addView(linearLayout);
         linearLayout.addView(textView);
@@ -205,7 +206,7 @@ public class MainActivity extends AppCompatActivity  {
                     Handler handler = new Handler(Looper.getMainLooper());
                     handler.postDelayed(new Runnable() {
                         @Override
-                        public void run() {createInResponse(viewResponses, "Hello, ask questions about HIV/Aids and I will try my best to answer.");}
+                        public void run() {createInResponse(viewResponses, "Hello, ask questions or concerns about HIV/Aids and I will try my best to answer.");}
                     }, 1000);
 
                     createSession();
@@ -321,6 +322,14 @@ public class MainActivity extends AppCompatActivity  {
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Save Changes",new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
+
+                        try{
+                            System.out.println(editText.getText());
+                        }catch(Exception e){
+                            System.err.println("Failed to retrieve selected language. " + e);
+                        }
+
+
                         Toast.makeText(MainActivity.this, "Saving Language Preferences", Toast.LENGTH_SHORT).show();
                     }
                 });

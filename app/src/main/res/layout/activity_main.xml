@@ -4,141 +4,183 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background=" #111427"
     android:onClick="changeLanguageAlertDialog"
     tools:context=".MainActivity">
 
     <LinearLayout
         android:id="@+id/layout_discussion"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="396dp"
+        android:layout_height="789dp"
         android:orientation="vertical"
-        android:padding="40dp"
-        tools:layout_editor_absoluteX="11dp"
-        tools:layout_editor_absoluteY="11dp">
+        android:padding="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="144dp"
             android:orientation="vertical">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/textView12"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
-                android:orientation="vertical">
+                android:layout_height="129dp"
+                android:background="@drawable/discussion_banner"
+                android:paddingLeft="40dp"
+                android:paddingTop="30dp"
+                android:text="Hive Healthcare"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
 
-                <TextView
-                    android:id="@+id/textLog"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Responses:"
-                    android:textColor="#FFFFFF" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="712dp"
+            android:layout_marginTop="-45dp"
+            android:background="@drawable/responses_background"
+            android:orientation="vertical"
+            android:paddingLeft="40dp"
+            android:paddingTop="20dp"
+            android:paddingEnd="40dp"
+            android:paddingRight="0dp"
+            android:paddingBottom="40dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="624dp"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:layout_weight="1"
+                    android:layout_height="400dp"
                     android:orientation="vertical">
 
-                    <ScrollView
+                    <TextView
+                        android:id="@+id/textLog"
                         android:layout_width="match_parent"
-                        android:layout_height="202dp"
-                        android:layout_weight="1">
+                        android:layout_height="3dp"
+                        android:layout_weight="1"
+                        android:text="AI-Enabled Responses:"
+                        android:textColor="#000000" />
 
-                        <LinearLayout
-                            android:id="@+id/view_responses"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"></LinearLayout>
-                    </ScrollView>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="297dp"
+                            android:layout_weight="1">
+
+                            <LinearLayout
+                                android:id="@+id/view_responses"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"></LinearLayout>
+                        </ScrollView>
+                    </LinearLayout>
+
                 </LinearLayout>
 
-            </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="68dp"
+                    android:orientation="horizontal"
+                    android:padding="20px"
+                    android:textAlignment="center">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:background="#F8F6F6"
-                android:orientation="horizontal"
-                android:padding="20px"
-                android:textAlignment="center">
+                    <LinearLayout
+                        android:layout_width="224dp"
+                        android:layout_height="53dp"
+                        android:background="@drawable/response_background"
+                        android:orientation="horizontal"
+                        android:paddingRight="10dp">
 
-                <EditText
-                    android:id="@+id/textMessage"
-                    android:layout_width="221dp"
+                        <EditText
+                            android:id="@+id/textMessage"
+                            android:layout_width="189dp"
+                            android:layout_height="match_parent"
+                            android:background="@null"
+                            android:backgroundTint="#FFFFFF"
+                            android:ems="10"
+                            android:hint="Enter your response."
+                            android:inputType="textPersonName"
+                            android:padding="10dp"
+                            android:textColor="#D1CACA"
+                            android:textSize="12dp" />
+
+                        <ImageView
+                            android:id="@+id/buttonSpeech"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:onClick="handleClick"
+                            android:textAlignment="center"
+                            app:srcCompat="@drawable/ic_baseline_mic_24" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="12dp"
+                        android:layout_height="35dp"
+                        android:orientation="horizontal">
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/buttonSend"
+                            android:layout_width="43dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/send_background"
+                            android:onClick="handleClick"
+                            android:textAlignment="center"
+                            app:srcCompat="@drawable/ic_send_foreground" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="73dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/button_translate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:text="In French Mode"
+                        app:strokeColor="#FFFFFF"
+                        app:strokeWidth="1dp" />
+
+                    <Button
+                        android:id="@+id/button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:onClick="changeLanguageAlertDialog"
+                        android:text="Change Language"
+                        app:strokeColor="#FFFFFF"
+                        app:strokeWidth="1dp" />
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/button_return"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="#FFFFFF"
-                    android:ems="10"
-                    android:hint="Enter your response."
-                    android:inputType="textPersonName"
-                    android:padding="0dp"
-                    android:textColor="#D1CACA"
-                    android:textSize="14dp" />
-
-                <ImageView
-                    android:id="@+id/buttonSpeech"
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#FFFFFF"
-                    android:onClick="handleClick"
-                    android:textAlignment="center"
-                    app:srcCompat="@drawable/ic_baseline_mic_24" />
-
-                <ImageView
-                    android:id="@+id/buttonSend"
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#008080"
-                    android:onClick="handleClick"
-                    android:textAlignment="center"
-                    app:srcCompat="@android:drawable/ic_menu_send" />
+                    android:backgroundTint="#3B4049"
+                    android:text="Return"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="107dp"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/button_translate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="In French Mode" />
-
-                <Button
-                    android:id="@+id/button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:onClick="changeLanguageAlertDialog"
-                    android:text="Change Language"
-                    app:strokeColor="#A64A4A" />
-
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/button_return"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="#000000"
-                android:text="Return"
-                android:textSize="14sp" />
-
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:orientation="horizontal">
-
-        </LinearLayout>
-
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
