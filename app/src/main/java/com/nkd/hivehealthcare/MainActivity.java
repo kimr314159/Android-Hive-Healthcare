@@ -16,6 +16,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -322,12 +323,21 @@ public class MainActivity extends AppCompatActivity  {
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Save Changes",new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-
                         try{
                             System.out.println(editText.getText());
+                            buttonTranslate.setText("In "+ editText.getText() + " Mode");
+                            setupTranslator();
+                            //Src to find language codes: https://developers.google.com/admin-sdk/directory/v1/languages
+                            updateTextToSpeech();
+                            updateSpeechIntent();
                         }catch(Exception e){
                             System.err.println("Failed to retrieve selected language. " + e);
                         }
+
+
+
+
+
 
 
                         Toast.makeText(MainActivity.this, "Saving Language Preferences", Toast.LENGTH_SHORT).show();
