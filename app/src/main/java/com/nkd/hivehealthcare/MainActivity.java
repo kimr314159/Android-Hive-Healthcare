@@ -3,6 +3,7 @@ package com.nkd.hivehealthcare;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.api.Distribution;
 import com.google.api.gax.core.FixedCredentialsProvider;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.auth.oauth2.ServiceAccountCredentials;
@@ -30,6 +31,7 @@ import android.speech.tts.TextToSpeech;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -67,6 +69,7 @@ public class MainActivity extends AppCompatActivity  {
     String targetLanguage;
     Locale targetLanguageForTTS;
     Intent speechIntent;
+    LinearLayout linearLayoutHome;
 
 
 
@@ -74,21 +77,15 @@ public class MainActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        textName = (TextView) findViewById(R.id.text_name);
-        textName.setAlpha(0f);
-        textName.animate().alpha(1.0f).setDuration(3000).start();
-
-
-
+        linearLayoutHome = (LinearLayout) findViewById(R.id.linear_layout_home);
+        linearLayoutHome.setAlpha(0f);
+        linearLayoutHome.animate().alpha(1.0f).setDuration(2500).start();
 
         knowledgeBaseName =  getResources().getString(R.string.knowledge_base_id);
         Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {
             @Override
-            public void run() {
-                getOptionsLayout();
-            }}, 2000);
-
+            public void run() {getOptionsLayout();}}, 2500);
         updateTextToSpeech();
     }
 
@@ -125,7 +122,6 @@ public class MainActivity extends AppCompatActivity  {
                 Translate.TranslateOption.sourceLanguage("en"),
                 Translate.TranslateOption.targetLanguage(targetLanguage));
         System.out.println(translation.getTranslatedText());
-
         return translation.getTranslatedText();
 
     }
@@ -148,7 +144,6 @@ public class MainActivity extends AppCompatActivity  {
         textView.setPadding(40,20,40,20);
         textView.setBackgroundResource(R.color.white);
         textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
         viewResponses.addView(linearLayout);
         linearLayout.addView(textView);
     }
@@ -193,8 +188,6 @@ public class MainActivity extends AppCompatActivity  {
                     //Default Lang
                     targetLanguage = "en";
                     targetLanguageForTTS = Locale.ENGLISH;
-//                    updateTextToSpeech();
-
                     layoutDiscussion = (LinearLayout) findViewById(R.id.layout_discussion);
                     layoutDiscussion.setAlpha(0);
                     layoutDiscussion.animate().alpha(1.0f).setDuration(3000).start();

@@ -3,25 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#111427">
+    android:background="#111427"
+    android:gravity="center">
 
     <LinearLayout
+        android:id="@+id/linear_layout_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/text_name"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="377dp"
-            android:layout_weight="1"
-            android:background="#00FFFFFF"
-            android:gravity="center|center_horizontal"
-            android:shadowColor="#FFFFFF"
-            android:text="Hive Healthcare"
-            android:textColor="#FFFFFF"
-            android:textSize="18dp" />
+            android:layout_height="155dp"
+            android:orientation="vertical"></LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="403dp"
+            android:layout_height="204dp"
+            app:srcCompat="@drawable/bannertop" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="match_parent"
+            android:layout_height="227dp"
+            app:srcCompat="@drawable/bottombanner" />
 
     </LinearLayout>
 
