@@ -85,7 +85,8 @@ public class MainActivity extends AppCompatActivity  {
         Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {
             @Override
-            public void run() {getOptionsLayout();}}, 2500);
+            public void run() {getOptionsLayout();}
+        }, 2500);
         updateTextToSpeech();
     }
 
@@ -200,9 +201,14 @@ public class MainActivity extends AppCompatActivity  {
                     buttonSend = (ImageView) findViewById(R.id.buttonSend);
                     textMessage = (EditText) findViewById(R.id.textMessage);
                     setCredentials();
-                    createInResponse(viewResponses, "Hello, ask questions about HIV/Aids and I will try my best to answer.");
-                    createSession();
 
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {createInResponse(viewResponses, "Hello, ask questions about HIV/Aids and I will try my best to answer.");}
+                    }, 1000);
+
+                    createSession();
                     sendWhoRequest("USA");
 
 
@@ -215,7 +221,6 @@ public class MainActivity extends AppCompatActivity  {
                                 //Src to find language codes: https://developers.google.com/admin-sdk/directory/v1/languages
                                 targetLanguage = "fr";
                                 targetLanguageForTTS = Locale.FRENCH;
-                                translate("Hello, Kim");
                                 updateTextToSpeech();
                                 updateSpeechIntent();
                             }catch (Exception e){

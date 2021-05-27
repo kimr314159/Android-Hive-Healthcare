@@ -48,12 +48,14 @@
 
                 <Button
                     android:id="@+id/button_return"
-                    android:layout_width="20dp"
+                    android:layout_width="55dp"
                     android:layout_height="wrap_content"
                     android:height="2dp"
                     android:background="#C4C4C4"
                     android:minHeight="20dp"
                     android:paddingLeft="20dp"
+                    android:text="return"
+                    android:textColor="#FFFCFC"
                     app:cornerRadius="0dp" />
 
             </LinearLayout>
