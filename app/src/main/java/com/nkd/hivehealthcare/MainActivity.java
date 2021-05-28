@@ -207,7 +207,7 @@ public class MainActivity extends AppCompatActivity  {
                     Handler handler = new Handler(Looper.getMainLooper());
                     handler.postDelayed(new Runnable() {
                         @Override
-                        public void run() {createInResponse(viewResponses, "Hello, ask questions or concerns about HIV/Aids and I will try my best to answer.");}
+                        public void run() {createInResponse(viewResponses, "Hello, ask questions or express concerns about HIV/Aids and I will try my best to answer.");}
                     }, 1000);
 
                     createSession();
